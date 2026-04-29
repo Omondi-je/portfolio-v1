@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeff Omondi — Data Scientist & Machine Learning Engineer</title>
+    <meta name="description" content="Transforming complex data into intelligent, actionable solutions. Full-stack data practitioner specializing in ML, MLOps, and Data Engineering.">
+    <meta property="og:title" content="Jeff Omondi — Data Scientist & ML Engineer">
+    <meta property="og:description" content="Portfolio showcasing end-to-end data science solutions.">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        space: '#0a0a0f',
+                        cyan: '#00d4ff',
+                        purple: '#7c3aed',
+                        pink: '#f472b6',
+                        card: 'rgba(26, 26, 46, 0.7)',
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        rajdhani: ['Rajdhani', 'sans-serif'],
+                        grotesk: ['Space Grotesk', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --space: #0a0a0f;
+            --cyan: #00d4ff;
+            --purple: #7c3aed;
+            --pink: #f472b6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--space);
+            color: #e2e8f0;
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--space);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--cyan), var(--purple));
+            border-radius: 4px;
+        }
+
+        /* Canvas Background */
+        #starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: rgba(26, 26, 46, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-strong {
+            background: rgba(26, 26, 46, 0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Glow effects */
+        .glow-cyan {
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.15), 0 0 40px rgba(0, 212, 255, 0.05);
+        }
+        .glow-cyan-text {
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5), 0 0 40px rgba(0, 212, 255, 0.2);
+        }
+        .glow-purple {
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.15), 0 0 40px rgba(124, 58, 237, 0.05);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.2); }
+            50% { box-shadow: 0 0 40px rgba(0, 212, 255, 0.4); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 1s ease-out forwards;
+            opacity: 0;
+        }
+
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        .delay-600 { animation-delay: 0.6s; }
+        .delay-700 { animation-delay: 0.7s; }
+        .delay-800 { animation-delay: 0.8s; }
+
+        /* Navigation */
+        .nav-scrolled {
+            background: rgba(10, 10, 15, 0.95) !important;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        /* Skill bars */
+        .skill-bar-fill {
+            width: 0;
+            transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* Project cards */
+        .project-card {
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .project-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.15), 0 0 60px rgba(124, 58, 237, 0.1);
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--cyan), var(--purple));
+            background-size: 200% 200%;
+            animation: gradient-shift 3s ease infinite;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+        }
+
+        .btn-secondary {
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: var(--cyan);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .modal-content {
+            transform: scale(0.9) translateY(20px);
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        /* Timeline */
+        .timeline-line {
+            background: linear-gradient(180deg, var(--cyan), var(--purple), var(--pink));
+        }
+
+        .timeline-dot {
+            box-shadow: 0 0 0 4px var(--space), 0 0 0 6px var(--cyan);
+        }
+
+        /* Filter tabs */
+        .filter-tab {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .filter-tab.active {
+            background: linear-gradient(135deg, var(--cyan), var(--purple));
+            color: white;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+        .filter-tab:hover:not(.active) {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+
+        /* Tech icon hover */
+        .tech-item {
+            transition: all 0.3s ease;
+        }
+        .tech-item:hover {
+            transform: translateY(-4px);
+            border-color: rgba(0, 212, 255, 0.4);
+            box-shadow: 0 8px 24px rgba(0, 212, 255, 0.1);
+        }
+
+        /* Typing cursor */
+        .typing-cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1.2em;
+            background: var(--cyan);
+            margin-left: 4px;
+            animation: blink 1s infinite;
+            vertical-align: text-bottom;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Section reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, var(--cyan), var(--purple), var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        /* Stat counter */
+        .stat-number {
+            font-variant-numeric: tabular-nums;
+        }
+    </style>
+</head>
+<body>
+    <!-- Starfield Canvas -->
+    <canvas id="starfield"></canvas>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 py-4">
+        <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+            <a href="#" class="font-orbitron text-xl font-bold tracking-wider text-white">
+                JEFF<span class="text-cyan">.</span>OMONDI
+            </a>
+
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#about" class="font-rajdhani text-sm uppercase tracking-widest text-gray-400 hover:text-cyan transition-colors">About</a>
+                <a href="#skills" class="font-rajdhani text-sm uppercase tracking-widest text-gray-400 hover:text-cyan transition-colors">Skills</a>
+                <a href="#tech" class="font-rajdhani text-sm uppercase tracking-widest text-gray-400 hover:text-cyan transition-colors">Tech Stack</a>
+                <a href="#projects" class="font-rajdhani text-sm uppercase tracking-widest text-gray-400 hover:text-cyan transition-colors">Projects</a>
+                <a href="#workflow" class="font-rajdhani text-sm uppercase tracking-widest text-gray-400 hover:text-cyan transition-colors">Workflow</a>
+                <a href="#contact" class="font-rajdhani text-sm uppercase tracking-widest text-gray-400 hover:text-cyan transition-colors">Contact</a>
+            </div>
+
+            <button id="mobile-menu-btn" class="md:hidden text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu fixed inset-0 z-40 bg-space/98 backdrop-blur-xl flex flex-col items-center justify-center gap-8 md:hidden">
+        <button id="close-menu" class="absolute top-6 right-6 text-white">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <a href="#about" class="mobile-link font-orbitron text-2xl text-white hover:text-cyan transition-colors">About</a>
+        <a href="#skills" class="mobile-link font-orbitron text-2xl text-white hover:text-cyan transition-colors">Skills</a>
+        <a href="#tech" class="mobile-link font-orbitron text-2xl text-white hover:text-cyan transition-colors">Tech Stack</a>
+        <a href="#projects" class="mobile-link font-orbitron text-2xl text-white hover:text-cyan transition-colors">Projects</a>
+        <a href="#workflow" class="mobile-link font-orbitron text-2xl text-white hover:text-cyan transition-colors">Workflow</a>
+        <a href="#contact" class="mobile-link font-orbitron text-2xl text-white hover:text-cyan transition-colors">Contact</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center px-6 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-space/50 to-space z-0"></div>
+
+        <div class="relative z-10 text-center max-w-5xl mx-auto">
+            <div class="animate-fade-in-up">
+                <p class="font-rajdhani text-cyan text-sm md:text-base uppercase tracking-[0.3em] mb-4">Data Scientist & Machine Learning Engineer</p>
+            </div>
+
+            <h1 class="animate-fade-in-up delay-200 font-orbitron text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-tight">
+                JEFF<br><span class="gradient-text">OMONDI</span>
+            </h1>
+
+            <div class="animate-fade-in-up delay-300 h-8 md:h-12 mb-8">
+                <p class="font-grotesk text-lg md:text-2xl text-gray-300">
+                    <span id="typing-text"></span><span class="typing-cursor"></span>
+                </p>
+            </div>
+
+            <div class="animate-fade-in-up delay-500 flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#projects" class="btn-primary px-8 py-4 rounded-full font-rajdhani font-semibold uppercase tracking-wider text-white text-sm">
+                    View Projects
+                </a>
+                <a href="#contact" class="btn-secondary px-8 py-4 rounded-full font-rajdhani font-semibold uppercase tracking-wider text-white text-sm">
+                    Get In Touch
+                </a>
+            </div>
+
+            <div class="animate-fade-in delay-700 mt-16 flex justify-center gap-8">
+                <a href="https://github.com/Omondi-je" target="_blank" class="text-gray-500 hover:text-cyan transition-colors">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/jeff-omondi-a42b23310/" target="_blank" class="text-gray-500 hover:text-cyan transition-colors">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+                <a href="mailto:ojeff1211@gmail.com" class="text-gray-500 hover:text-cyan transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                </a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+            <svg class="w-6 h-6 text-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="relative py-24 md:py-32 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="reveal mb-16">
+                <p class="font-rajdhani text-cyan text-sm uppercase tracking-[0.3em] mb-4">01 — About Me</p>
+                <h2 class="font-orbitron text-3xl md:text-5xl font-bold text-white mb-6">I don't just build models.<br>I build <span class="gradient-text">systems</span> that turn data into decisions.</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-start">
+                <div class="reveal glass rounded-2xl p-8 md:p-10">
+                    <p class="font-grotesk text-gray-300 text-lg leading-relaxed mb-6">
+                        I am a <strong class="text-white">full-stack data practitioner</strong> — meaning I don't just train models in a notebook and walk away. I own the entire pipeline: from ingesting messy raw data through Spark and Kafka, to engineering features, training models with PyTorch or XGBoost, containerizing with Docker, deploying on AWS/GCP/Azure, and monitoring performance in production.
+                    </p>
+                    <p class="font-grotesk text-gray-300 text-lg leading-relaxed mb-6">
+                        My differentiator is <strong class="text-white">breadth + depth</strong>. Most data scientists know Python and scikit-learn. I also know Rust, C++, and Julia for performance-critical code. Most ML engineers know Docker. I also know Kubernetes, Airflow, and feature stores. Most analysts know Tableau. I also build interactive dashboards with Streamlit and Dash.
+                    </p>
+                    <p class="font-grotesk text-gray-300 text-lg leading-relaxed">
+                        I enjoy solving problems at the intersection of <span class="text-cyan">statistics</span>, <span class="text-purple">software engineering</span>, and <span class="text-pink">business strategy</span>.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="reveal glass rounded-xl p-6 text-center glow-cyan" style="transition-delay: 0.1s">
+                        <div class="stat-number font-orbitron text-4xl md:text-5xl font-bold text-cyan mb-2" data-target="54">0</div>
+                        <p class="font-rajdhani text-gray-400 uppercase tracking-wider text-sm">Tools Mastered</p>
+                    </div>
+                    <div class="reveal glass rounded-xl p-6 text-center glow-purple" style="transition-delay: 0.2s">
+                        <div class="stat-number font-orbitron text-4xl md:text-5xl font-bold text-purple mb-2" data-target="6">0</div>
+                        <p class="font-rajdhani text-gray-400 uppercase tracking-wider text-sm">Featured Projects</p>
+                    </div>
+                    <div class="reveal glass rounded-xl p-6 text-center" style="transition-delay: 0.3s">
+                        <div class="stat-number font-orbitron text-4xl md:text-5xl font-bold text-pink mb-2" data-target="10">0</div>
+                        <p class="font-rajdhani text-gray-400 uppercase tracking-wider text-sm">Languages</p>
+                    </div>
+                    <div class="reveal glass rounded-xl p-6 text-center" style="transition-delay: 0.4s">
+                        <div class="stat-number font-orbitron text-4xl md:text-5xl font-bold text-white mb-2" data-target="7">0</div>
+                        <p class="font-rajdhani text-gray-400 uppercase tracking-wider text-sm">Workflow Steps</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="relative py-24 md:py-32 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="reveal mb-16">
+                <p class="font-rajdhani text-cyan text-sm uppercase tracking-[0.3em] mb-4">02 — Core Competencies</p>
+                <h2 class="font-orbitron text-3xl md:text-5xl font-bold text-white mb-6">Technical <span class="gradient-text">Proficiency</span></h2>
+            </div>
+
+            <div class="reveal glass rounded-2xl p-8 md:p-12">
+                <div id="skills-container" class="space-y-8">
+                    <!-- Skills injected by JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section id="tech" class="relative py-24 md:py-32 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="reveal mb-16">
+                <p class="font-rajdhani text-cyan text-sm uppercase tracking-[0.3em] mb-4">03 — Technology Arsenal</p>
+                <h2 class="font-orbitron text-3xl md:text-5xl font-bold text-white mb-6">54 Tools. One Unified <span class="gradient-text">Workflow</span>.</h2>
+            </div>
+
+            <div class="reveal mb-8 flex flex-wrap gap-3" id="tech-filters">
+                <button class="filter-tab active px-6 py-2 rounded-full border border-gray-700 font-rajdhani text-sm uppercase tracking-wider" data-filter="all">All</button>
+                <button class="filter-tab px-6 py-2 rounded-full border border-gray-700 font-rajdhani text-sm uppercase tracking-wider" data-filter="languages">Languages</button>
+                <button class="filter-tab px-6 py-2 rounded-full border border-gray-700 font-rajdhani text-sm uppercase tracking-wider" data-filter="python">Python Ecosystem</button>
+                <button class="filter-tab px-6 py-2 rounded-full border border-gray-700 font-rajdhani text-sm uppercase tracking-wider" data-filter="engineering">Data Engineering</button>
+                <button class="filter-tab px-6 py-2 rounded-full border border-gray-700 font-rajdhani text-sm uppercase tracking-wider" data-filter="mlops">MLOps & Cloud</button>
+                <button class="filter-tab px-6 py-2 rounded-full border border-gray-700 font-rajdhani text-sm uppercase tracking-wider" data-filter="viz">Visualization</button>
+                <button class="filter-tab px-6 py-2 rounded-full border border-gray-700 font-rajdhani text-sm uppercase tracking-wider" data-filter="tools">Dev Tools</button>
+            </div>
+
+            <div id="tech-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <!-- Tech items injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="relative py-24 md:py-32 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="reveal mb-16">
+                <p class="font-rajdhani text-cyan text-sm uppercase tracking-[0.3em] mb-4">04 — Featured Work</p>
+                <h2 class="font-orbitron text-3xl md:text-5xl font-bold text-white mb-6">End-to-end Solutions.<br>Real Datasets. <span class="gradient-text">Measurable Impact</span>.</h2>
+            </div>
+
+            <div class="reveal mb-8 flex flex-wrap gap-3" id="project-filters">
+                <button class="filter-tab active px-6 py-2 rounded-full border border-gray-700 font-rajdhani text-sm uppercase tracking-wider" data-filter="all">All</button>
+                <button class="filter-tab px-6 py-2 rounded-full border border-gray-700 font-rajdhani text-sm uppercase tracking-wider" data-filter="anomaly">Anomaly Detection</button>
+                <button class="filter-tab px-6 py-2 rounded-full border border-gray-700 font-rajdhani text-sm uppercase tracking-wider" data-filter="nlp">NLP</button>
+                <button class="filter-tab px-6 py-2 rounded-full border border-gray-700 font-rajdhani text-sm uppercase tracking-wider" data-filter="cv">Computer Vision</button>
+                <button class="filter-tab px-6 py-2 rounded-full border border-gray-700 font-rajdhani text-sm uppercase tracking-wider" data-filter="classification">Classification</button>
+                <button class="filter-tab px-6 py-2 rounded-full border border-gray-700 font-rajdhani text-sm uppercase tracking-wider" data-filter="timeseries">Time Series</button>
+                <button class="filter-tab px-6 py-2 rounded-full border border-gray-700 font-rajdhani text-sm uppercase tracking-wider" data-filter="recommendation">Recommendations</button>
+            </div>
+
+            <div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Project cards injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Modal -->
+    <div id="project-modal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+        <div class="modal-content glass-strong rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-8 md:p-10 relative">
+            <button id="close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div id="modal-body">
+                <!-- Modal content injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Workflow Section -->
+    <section id="workflow" class="relative py-24 md:py-32 px-6">
+        <div class="max-w-5xl mx-auto">
+            <div class="reveal mb-16 text-center">
+                <p class="font-rajdhani text-cyan text-sm uppercase tracking-[0.3em] mb-4">05 — Methodology</p>
+                <h2 class="font-orbitron text-3xl md:text-5xl font-bold text-white mb-6">The <span class="gradient-text">End-to-End</span> Process</h2>
+                <p class="font-grotesk text-gray-400 text-lg max-w-2xl mx-auto">From raw data to production deployment — a systematic approach to solving complex data problems.</p>
+            </div>
+
+            <div class="relative" id="workflow-timeline">
+                <!-- Timeline injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="relative py-24 md:py-32 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="reveal mb-16">
+                <p class="font-rajdhani text-cyan text-sm uppercase tracking-[0.3em] mb-4">06 — Get In Touch</p>
+                <h2 class="font-orbitron text-3xl md:text-5xl font-bold text-white mb-6">Have a data problem?<br>Let's <span class="gradient-text">solve it</span>.</h2>
+            </div>
+
+            <div class="reveal grid md:grid-cols-3 gap-6 mb-12">
+                <a href="mailto:ojeff1211@gmail.com" class="glass rounded-xl p-8 hover:border-cyan/30 transition-all group">
+                    <div class="w-14 h-14 rounded-full bg-cyan/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-cyan/20 transition-colors">
+                        <svg class="w-6 h-6 text-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h3 class="font-orbitron text-white font-semibold mb-2">Email</h3>
+                    <p class="font-grotesk text-gray-400 text-sm">ojeff1211@gmail.com</p>
+                </a>
+
+                <a href="https://github.com/Omondi-je" target="_blank" class="glass rounded-xl p-8 hover:border-purple/30 transition-all group">
+                    <div class="w-14 h-14 rounded-full bg-purple/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-purple/20 transition-colors">
+                        <svg class="w-6 h-6 text-purple" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </div>
+                    <h3 class="font-orbitron text-white font-semibold mb-2">GitHub</h3>
+                    <p class="font-grotesk text-gray-400 text-sm">@Omondi-je</p>
+                </a>
+
+                <a href="https://www.linkedin.com/in/jeff-omondi-a42b23310/" target="_blank" class="glass rounded-xl p-8 hover:border-pink/30 transition-all group">
+                    <div class="w-14 h-14 rounded-full bg-pink/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-pink/20 transition-colors">
+                        <svg class="w-6 h-6 text-pink" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </div>
+                    <h3 class="font-orbitron text-white font-semibold mb-2">LinkedIn</h3>
+                    <p class="font-grotesk text-gray-400 text-sm">Jeff Omondi</p>
+                </a>
+            </div>
+
+            <div class="reveal">
+                <a href="#" class="btn-primary inline-flex items-center gap-3 px-10 py-5 rounded-full font-rajdhani font-semibold uppercase tracking-wider text-white text-sm">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    Download Resume
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative py-12 px-6 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="font-orbitron text-xl font-bold tracking-wider text-white">
+                JEFF<span class="text-cyan">.</span>OMONDI
+            </div>
+            <p class="font-grotesk text-gray-500 text-sm">Transforming complex data into intelligent, actionable solutions.</p>
+            <p class="font-grotesk text-gray-600 text-sm">© 2026 Jeff Omondi. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ==================== DATA ====================
+        const portfolioData = {
+            skills: [
+                { name: "Python", level: 95, category: "languages" },
+                { name: "R", level: 88, category: "languages" },
+                { name: "SQL", level: 90, category: "languages" },
+                { name: "Machine Learning", level: 92, category: "ml" },
+                { name: "Deep Learning", level: 85, category: "ml" },
+                { name: "Data Engineering", level: 88, category: "engineering" },
+                { name: "MLOps", level: 82, category: "mlops" },
+                { name: "Cloud Platforms", level: 80, category: "mlops" },
+                { name: "Statistical Analysis", level: 90, category: "ml" },
+                { name: "Data Visualization", level: 87, category: "viz" }
+            ],
+
+            techStack: [
+                { name: "Python", category: "languages", icon: "Py" },
+                { name: "R", category: "languages", icon: "R" },
+                { name: "SQL", category: "languages", icon: "SQL" },
+                { name: "C++", category: "languages", icon: "C++" },
+                { name: "Rust", category: "languages", icon: "Rs" },
+                { name: "Julia", category: "languages", icon: "Jl" },
+                { name: "JavaScript", category: "languages", icon: "JS" },
+                { name: "TypeScript", category: "languages", icon: "TS" },
+                { name: "MATLAB", category: "languages", icon: "ML" },
+                { name: "SAS", category: "languages", icon: "SAS" },
+                { name: "NumPy", category: "python", icon: "Np" },
+                { name: "Pandas", category: "python", icon: "Pd" },
+                { name: "Polars", category: "python", icon: "Pl" },
+                { name: "SciPy", category: "python", icon: "Sp" },
+                { name: "Matplotlib", category: "python", icon: "Mp" },
+                { name: "Seaborn", category: "python", icon: "Sn" },
+                { name: "Plotly", category: "python", icon: "Pl" },
+                { name: "Altair", category: "python", icon: "Al" },
+                { name: "Bokeh", category: "python", icon: "Bk" },
+                { name: "Scikit-learn", category: "python", icon: "Sk" },
+                { name: "XGBoost", category: "python", icon: "Xg" },
+                { name: "LightGBM", category: "python", icon: "Lg" },
+                { name: "CatBoost", category: "python", icon: "Cb" },
+                { name: "TensorFlow", category: "python", icon: "Tf" },
+                { name: "PyTorch", category: "python", icon: "Pt" },
+                { name: "Keras", category: "python", icon: "Kr" },
+                { name: "NLTK", category: "python", icon: "Nk" },
+                { name: "spaCy", category: "python", icon: "Sc" },
+                { name: "HuggingFace", category: "python", icon: "Hf" },
+                { name: "Gensim", category: "python", icon: "Gs" },
+                { name: "OpenCV", category: "python", icon: "Cv" },
+                { name: "Detectron2", category: "python", icon: "D2" },
+                { name: "YOLO", category: "python", icon: "Yl" },
+                { name: "Apache Spark", category: "engineering", icon: "Sp" },
+                { name: "PySpark", category: "engineering", icon: "Ps" },
+                { name: "Dask", category: "engineering", icon: "Dk" },
+                { name: "Apache Kafka", category: "engineering", icon: "Kf" },
+                { name: "Apache Airflow", category: "engineering", icon: "Af" },
+                { name: "PostgreSQL", category: "engineering", icon: "Pg" },
+                { name: "MongoDB", category: "engineering", icon: "Mg" },
+                { name: "Snowflake", category: "engineering", icon: "Sf" },
+                { name: "BigQuery", category: "engineering", icon: "Bq" },
+                { name: "MLflow", category: "mlops", icon: "Mf" },
+                { name: "Docker", category: "mlops", icon: "Dk" },
+                { name: "Kubernetes", category: "mlops", icon: "Ks" },
+                { name: "FastAPI", category: "mlops", icon: "Fa" },
+                { name: "AWS", category: "mlops", icon: "Aw" },
+                { name: "GCP", category: "mlops", icon: "Gc" },
+                { name: "Azure", category: "mlops", icon: "Az" },
+                { name: "GitHub Actions", category: "mlops", icon: "Ga" },
+                { name: "Tableau", category: "viz", icon: "Tb" },
+                { name: "Power BI", category: "viz", icon: "Pb" },
+                { name: "Streamlit", category: "viz", icon: "St" },
+                { name: "Dash", category: "viz", icon: "Da" },
+                { name: "Git", category: "tools", icon: "Gt" },
+                { name: "GitHub", category: "tools", icon: "Gh" },
+                { name: "Jupyter", category: "tools", icon: "Jp" },
+                { name: "VS Code", category: "tools", icon: "Vs" },
+                { name: "React", category: "tools", icon: "Re" },
+                { name: "Next.js", category: "tools", icon: "Nj" },
+                { name: "Tailwind", category: "tools", icon: "Tw" }
+            ],
+
+            projects: [
+                {
+                    id: 1,
+                    title: "Real-Time Fraud Detection System",
+                    category: "anomaly",
+                    domain: "Anomaly Detection / Financial Services",
+                    problem: "Detect fraudulent credit card transactions in real-time with minimal latency",
+                    dataset: "European Credit Card Transactions (284,807 records, highly imbalanced)",
+                    tech: ["Python", "Apache Kafka", "Spark Streaming", "Scikit-learn", "PostgreSQL"],
+                    methods: ["Isolation Forest", "One-Class SVM", "SMOTE", "Feature Engineering", "Real-time Processing"],
+                    results: ["95% precision on fraud cases", "50ms latency", "40% reduction in false positives", "Processing 10K+ transactions/second"],
+                    github: "https://github.com/Omondi-je/fraud-detection-system",
+                    color: "cyan"
+                },
+                {
+                    id: 2,
+                    title: "NLP Sentiment Analysis API",
+                    category: "nlp",
+                    domain: "Natural Language Processing / Social Media Analytics",
+                    problem: "Deploy a scalable sentiment analysis service for social media monitoring",
+                    dataset: "Twitter Sentiment Dataset (1.6M labeled tweets)",
+                    tech: ["Python", "FastAPI", "Docker", "Hugging Face Transformers", "Redis"],
+                    methods: ["BERT Fine-tuning", "Text Preprocessing", "Model Quantization", "REST API Design"],
+                    results: ["88% accuracy", "2,000+ requests/minute", "Deployed on AWS with auto-scaling"],
+                    github: "https://github.com/Omondi-je/sentiment-api",
+                    color: "purple"
+                },
+                {
+                    id: 3,
+                    title: "Computer Vision Inventory System",
+                    category: "cv",
+                    domain: "Computer Vision / Warehouse Automation",
+                    problem: "Automated inventory counting using computer vision",
+                    dataset: "Custom dataset of 50K warehouse images, 15 product categories",
+                    tech: ["Python", "PyTorch", "YOLOv8", "OpenCV", "MLflow"],
+                    methods: ["Transfer Learning", "Data Augmentation", "Hyperparameter Tuning", "Model Versioning"],
+                    results: ["92% mAP", "80% reduction in inventory counting time", "MLflow tracking"],
+                    github: "https://github.com/Omondi-je/cv-inventory",
+                    color: "pink"
+                },
+                {
+                    id: 4,
+                    title: "Customer Churn Prediction Pipeline",
+                    category: "classification",
+                    domain: "Classification / Telecom",
+                    problem: "Predict customer churn with automated retraining pipeline",
+                    dataset: "Telco Customer Churn (7,043 records, 21 features)",
+                    tech: ["Python", "Apache Airflow", "Scikit-learn", "Snowflake", "Tableau"],
+                    methods: ["XGBoost", "Random Forest", "Feature Engineering", "Pipeline Automation"],
+                    results: ["89% accuracy", "0.87 F1-score", "Automated weekly retraining", "Stakeholder dashboard"],
+                    github: "https://github.com/Omondi-je/churn-pipeline",
+                    color: "cyan"
+                },
+                {
+                    id: 5,
+                    title: "Time Series Sales Forecasting",
+                    category: "timeseries",
+                    domain: "Time Series / Retail",
+                    problem: "Forecast demand across 100+ SKUs to optimize inventory",
+                    dataset: "2 years of daily sales data (73K records per SKU)",
+                    tech: ["Python", "Prophet", "TensorFlow", "BigQuery", "Looker"],
+                    methods: ["ARIMA", "Prophet", "LSTM", "Ensemble Methods", "Cross-validation"],
+                    results: ["8.5% MAPE", "35% reduction in stockouts", "25% improvement in inventory turnover"],
+                    github: "https://github.com/Omondi-je/sales-forecasting",
+                    color: "purple"
+                },
+                {
+                    id: 6,
+                    title: "Recommendation Engine",
+                    category: "recommendation",
+                    domain: "Recommendation Systems / E-commerce",
+                    problem: "Personalized product recommendations at scale",
+                    dataset: "User behavior data (10M interactions, 100K users, 50K products)",
+                    tech: ["Python", "PySpark", "Redis", "FastAPI", "AWS SageMaker"],
+                    methods: ["Collaborative Filtering", "Matrix Factorization", "Deep Learning", "A/B Testing"],
+                    results: ["35% increase in click-through rate", "28% boost in conversion"],
+                    github: "https://github.com/Omondi-je/recommendation-engine",
+                    color: "pink"
+                }
+            ],
+
+            workflow: [
+                {
+                    step: 1,
+                    title: "Problem Definition",
+                    description: "Understand business objectives, define KPIs, translate requirements into data science problems"
+                },
+                {
+                    step: 2,
+                    title: "Data Collection & Engineering",
+                    description: "Design pipelines, extract from multiple sources, handle streaming (Kafka) and batch (Spark) processing"
+                },
+                {
+                    step: 3,
+                    title: "Exploratory Data Analysis",
+                    description: "Statistical analysis, visualization with Plotly/Seaborn, correlation analysis, hypothesis testing"
+                },
+                {
+                    step: 4,
+                    title: "Data Preprocessing",
+                    description: "Clean data, handle missing values, outliers, encoding, normalization (Pandas/Polars)"
+                },
+                {
+                    step: 5,
+                    title: "Feature Engineering",
+                    description: "Create domain-specific features, dimensionality reduction, selection using statistical methods"
+                },
+                {
+                    step: 6,
+                    title: "Model Development",
+                    description: "Train multiple algorithms (XGBoost, Neural Networks), hyperparameter tuning with Optuna"
+                },
+                {
+                    step: 7,
+                    title: "MLOps & Deployment",
+                    description: "Containerize with Docker, orchestrate with Kubernetes, monitor with Prometheus/Grafana"
+                }
+            ]
+        };
+
+        // ==================== STARFIELD BACKGROUND ====================
+        const canvas = document.getElementById('starfield');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        let width, height;
+
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            initStars();
+        }
+
+        function initStars() {
+            stars = [];
+            const count = Math.floor((width * height) / 4000);
+            for (let i = 0; i < count; i++) {
+                stars.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    size: Math.random() * 1.5 + 0.5,
+                    speed: Math.random() * 0.3 + 0.1,
+                    opacity: Math.random() * 0.8 + 0.2,
+                    color: Math.random() > 0.8 ? '#00d4ff' : Math.random() > 0.6 ? '#7c3aed' : '#ffffff'
+                });
+            }
+        }
+
+        function animateStars() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                ctx.fillStyle = star.color;
+                ctx.globalAlpha = star.opacity;
+                ctx.fill();
+
+                star.y += star.speed;
+                if (star.y > height) {
+                    star.y = 0;
+                    star.x = Math.random() * width;
+                }
+            });
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(animateStars);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        animateStars();
+
+        // ==================== TYPING EFFECT ====================
+        const phrases = [
+            "Transforming complex data into intelligent, actionable solutions",
+            "Building production-grade ML systems from end to end",
+            "Turning raw data into business decisions at scale"
+        ];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingElement = document.getElementById('typing-text');
+
+        function typeEffect() {
+            const currentPhrase = phrases[phraseIndex];
+
+            if (isDeleting) {
+                typingElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = isDeleting ? 30 : 50;
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                typeSpeed = 3000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(typeEffect, typeSpeed);
+        }
+        typeEffect();
+
+        // ==================== NAVIGATION ====================
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('nav-scrolled');
+            } else {
+                navbar.classList.remove('nav-scrolled');
+            }
+        });
+
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.add('open'));
+        closeMenuBtn.addEventListener('click', () => mobileMenu.classList.remove('open'));
+        mobileLinks.forEach(link => link.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+        // ==================== SCROLL REVEAL ====================
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+
+                    // Animate skill bars when visible
+                    const skillBars = entry.target.querySelectorAll('.skill-bar-fill');
+                    skillBars.forEach(bar => {
+                        const width = bar.getAttribute('data-width');
+                        setTimeout(() => { bar.style.width = width + '%'; }, 200);
+                    });
+
+                    // Animate stat counters
+                    const counters = entry.target.querySelectorAll('.stat-number');
+                    counters.forEach(counter => {
+                        const target = parseInt(counter.getAttribute('data-target'));
+                        animateCounter(counter, target);
+                    });
+
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        function animateCounter(element, target) {
+            let current = 0;
+            const increment = target / 60;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 25);
+        }
+
+        // ==================== SKILLS RENDERING ====================
+        function renderSkills() {
+            const container = document.getElementById('skills-container');
+            container.innerHTML = portfolioData.skills.map(skill => `
+                <div class="group">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-rajdhani font-semibold text-white text-lg">${skill.name}</span>
+                        <span class="font-orbitron text-cyan text-sm">${skill.level}%</span>
+                    </div>
+                    <div class="h-2 bg-gray-800 rounded-full overflow-hidden">
+                        <div class="skill-bar-fill h-full rounded-full bg-gradient-to-r from-cyan to-purple" data-width="${skill.level}"></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        renderSkills();
+
+        // ==================== TECH STACK RENDERING & FILTERING ====================
+        function renderTech(filter = 'all') {
+            const grid = document.getElementById('tech-grid');
+            const filtered = filter === 'all' ? portfolioData.techStack : portfolioData.techStack.filter(t => t.category === filter);
+
+            grid.innerHTML = filtered.map((tech, i) => `
+                <div class="tech-item glass rounded-xl p-4 text-center border border-gray-800" style="animation: fadeInUp 0.4s ease-out ${i * 0.03}s forwards; opacity: 0;">
+                    <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-cyan/20 to-purple/20 flex items-center justify-center mx-auto mb-3 font-orbitron text-cyan font-bold text-sm">
+                        ${tech.icon}
+                    </div>
+                    <p class="font-grotesk text-gray-300 text-sm">${tech.name}</p>
+                </div>
+            `).join('');
+        }
+        renderTech();
+
+        document.querySelectorAll('#tech-filters .filter-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('#tech-filters .filter-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                renderTech(tab.getAttribute('data-filter'));
+            });
+        });
+
+        // ==================== PROJECTS RENDERING & FILTERING ====================
+        function renderProjects(filter = 'all') {
+            const grid = document.getElementById('projects-grid');
+            const filtered = filter === 'all' ? portfolioData.projects : portfolioData.projects.filter(p => p.category === filter);
+
+            grid.innerHTML = filtered.map((project, i) => `
+                <div class="project-card glass rounded-2xl overflow-hidden border border-gray-800 cursor-pointer" 
+                     onclick="openModal(${project.id})"
+                     style="animation: fadeInUp 0.5s ease-out ${i * 0.1}s forwards; opacity: 0;">
+                    <div class="h-2 bg-gradient-to-r from-${project.color} to-${project.color === 'cyan' ? 'purple' : project.color === 'purple' ? 'pink' : 'cyan'}"></div>
+                    <div class="p-6 md:p-8">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="px-3 py-1 rounded-full bg-${project.color}/10 text-${project.color} font-rajdhani text-xs uppercase tracking-wider border border-${project.color}/20">
+                                ${project.domain.split(' / ')[0]}
+                            </span>
+                        </div>
+                        <h3 class="font-orbitron text-xl font-bold text-white mb-3 group-hover:text-cyan transition-colors">${project.title}</h3>
+                        <p class="font-grotesk text-gray-400 text-sm mb-6 line-clamp-2">${project.problem}</p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            ${project.tech.slice(0, 3).map(t => `<span class="px-2 py-1 rounded bg-gray-800 text-gray-300 text-xs font-grotesk">${t}</span>`).join('')}
+                            ${project.tech.length > 3 ? `<span class="px-2 py-1 rounded bg-gray-800 text-gray-300 text-xs font-grotesk">+${project.tech.length - 3}</span>` : ''}
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="font-rajdhani text-${project.color} text-sm uppercase tracking-wider">View Details →</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        renderProjects();
+
+        document.querySelectorAll('#project-filters .filter-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('#project-filters .filter-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                renderProjects(tab.getAttribute('data-filter'));
+            });
+        });
+
+        // ==================== MODAL ====================
+        const modal = document.getElementById('project-modal');
+        const modalBody = document.getElementById('modal-body');
+        const closeModal = document.getElementById('close-modal');
+
+        function openModal(projectId) {
+            const project = portfolioData.projects.find(p => p.id === projectId);
+            if (!project) return;
+
+            modalBody.innerHTML = `
+                <div class="mb-2">
+                    <span class="px-3 py-1 rounded-full bg-${project.color}/10 text-${project.color} font-rajdhani text-xs uppercase tracking-wider border border-${project.color}/20">
+                        ${project.domain}
+                    </span>
+                </div>
+                <h2 class="font-orbitron text-2xl md:text-3xl font-bold text-white mb-4">${project.title}</h2>
+
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="font-rajdhani text-cyan uppercase tracking-wider text-sm mb-2">Problem</h3>
+                        <p class="font-grotesk text-gray-300">${project.problem}</p>
+                    </div>
+
+                    <div>
+                        <h3 class="font-rajdhani text-cyan uppercase tracking-wider text-sm mb-2">Dataset</h3>
+                        <p class="font-grotesk text-gray-300">${project.dataset}</p>
+                    </div>
+
+                    <div>
+                        <h3 class="font-rajdhani text-cyan uppercase tracking-wider text-sm mb-2">Tech Stack</h3>
+                        <div class="flex flex-wrap gap-2">
+                            ${project.tech.map(t => `<span class="px-3 py-1 rounded-full bg-gray-800 text-gray-300 text-sm font-grotesk border border-gray-700">${t}</span>`).join('')}
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="font-rajdhani text-cyan uppercase tracking-wider text-sm mb-2">Methods</h3>
+                        <div class="flex flex-wrap gap-2">
+                            ${project.methods.map(m => `<span class="px-3 py-1 rounded-full bg-purple/10 text-purple text-sm font-grotesk border border-purple/20">${m}</span>`).join('')}
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="font-rajdhani text-cyan uppercase tracking-wider text-sm mb-2">Results</h3>
+                        <ul class="space-y-2">
+                            ${project.results.map(r => `
+                                <li class="flex items-start gap-3">
+                                    <span class="w-2 h-2 rounded-full bg-${project.color} mt-2 flex-shrink-0"></span>
+                                    <span class="font-grotesk text-gray-300">${r}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+
+                    <a href="${project.github}" target="_blank" class="btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-full font-rajdhani font-semibold uppercase tracking-wider text-white text-sm mt-4">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        View on GitHub
+                    </a>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        closeModal.addEventListener('click', () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // ==================== WORKFLOW RENDERING ====================
+        function renderWorkflow() {
+            const container = document.getElementById('workflow-timeline');
+            container.innerHTML = `
+                <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 timeline-line md:-translate-x-1/2"></div>
+                ${portfolioData.workflow.map((item, i) => `
+                    <div class="reveal relative flex items-start gap-6 md:gap-0 mb-12 last:mb-0 ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}">
+                        <div class="hidden md:block md:w-1/2 ${i % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12 md:text-left'}">
+                            <div class="glass rounded-xl p-6 inline-block">
+                                <span class="font-orbitron text-cyan text-3xl font-bold">0${item.step}</span>
+                                <h3 class="font-orbitron text-white text-xl font-bold mt-2 mb-2">${item.title}</h3>
+                                <p class="font-grotesk text-gray-400 text-sm max-w-xs ${i % 2 === 0 ? 'md:ml-auto' : ''}">${item.description}</p>
+                            </div>
+                        </div>
+
+                        <div class="absolute left-4 md:left-1/2 w-4 h-4 rounded-full bg-cyan timeline-dot md:-translate-x-1/2 mt-6"></div>
+
+                        <div class="md:hidden pl-12">
+                            <div class="glass rounded-xl p-6">
+                                <span class="font-orbitron text-cyan text-2xl font-bold">0${item.step}</span>
+                                <h3 class="font-orbitron text-white text-lg font-bold mt-2 mb-2">${item.title}</h3>
+                                <p class="font-grotesk text-gray-400 text-sm">${item.description}</p>
+                            </div>
+                        </div>
+
+                        <div class="hidden md:block md:w-1/2"></div>
+                    </div>
+                `).join('')}
+            `;
+        }
+        renderWorkflow();
+
+        // Re-observe new workflow reveal elements
+        document.querySelectorAll('#workflow-timeline .reveal').forEach(el => revealObserver.observe(el));
+    </script>
+</body>
+</html>
